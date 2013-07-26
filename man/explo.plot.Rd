@@ -4,11 +4,25 @@
 \docType{methods}
 
 \title{
-Exploratory plots for sequencing data.
+Exploratory plots for expression data.
 }
 
 \description{
-Different types of plots showing the biological classification for detected features, the comparison of count distributions, the distribution of counts or the length for detected features, the saturation over different sequencing depths, etc.
+Standard generic function. Different types of plots showing the biological classification for detected features, the expression distribution across samples or biological groups, the detection of technical bias such as length, GCcontent or RNA composition, the dependence of expression on sequencing depth, etc.
+}
+
+
+\usage{
+explo.plot(object, ...)
+}
+
+\arguments{
+  \item{object}{
+Object generated with \code{dat()} function.
+}
+  \item{...}{
+    Any argument from \code{par}.
+  }
 }
 
 \value{
@@ -30,7 +44,7 @@ Sonia Tarazona
 data(myCounts)
 
 ## Generating data for the plot "biodetection" and samples in columns 3 and 4 of expression data
-mydata2plot = dat(mydata, type = "biodetection", k = 0, selection = c(3,4))
+mydata2plot = dat(mydata, type = "biodetection", k = 0)
 
 ## Generating the corresponding plot
 explo.plot(mydata2plot)
