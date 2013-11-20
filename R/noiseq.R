@@ -1,7 +1,7 @@
 noiseq <-
 function (input, k = 0.5, norm = c("rpkm","uqua","tmm","n"),
           replicates = c("technical","biological","no"),
-          factor=NULL, conditions = NULL, pnr = 0.2, nss = 5, v = 0.02, lc = 1)
+          factor=NULL, conditions = NULL, pnr = 0.2, nss = 5, v = 0.02, lc = 0)
 
 # input: Object containing gene counts and as many columns as samples.
 
@@ -28,7 +28,7 @@ function (input, k = 0.5, norm = c("rpkm","uqua","tmm","n"),
 #         [(pnr-v)*sum(counts), (pnr+v)*sum(counts)]
 
 # lc:     Length correction in done by dividing expression by length^lc.
-#         By default, lc = 1. 
+#         By default, lc = 0. 
 
 {
   
@@ -77,15 +77,19 @@ function (input, k = 0.5, norm = c("rpkm","uqua","tmm","n"),
   
   resultat <- data.frame(resultat, "ranking" = ranking(resultat)$statistic)
   if (!is.null(featureData(input)@data$Length))
-    resultat <- data.frame(resultat, "Length" = as.numeric(as.character(featureData(input)@data[todos,"Length"])))  
+    resultat <- data.frame(resultat, "Length" = as.numeric(as.character(featureData(input)@data[todos,"Length"])),
+                           stringsAsFactors = FALSE)  
   if (!is.null(featureData(input)@data$GC))
-    resultat <- data.frame(resultat, "GC" = as.numeric(as.character(featureData(input)@data[todos,"GC"])))  
+    resultat <- data.frame(resultat, "GC" = as.numeric(as.character(featureData(input)@data[todos,"GC"])),
+                           stringsAsFactors = FALSE)  
   if (!is.null(featureData(input)@data$Chromosome))
     resultat <- data.frame(resultat, "Chrom" = as.character(featureData(input)@data$Chromosome),
                            "GeneStart" = as.numeric(as.character(featureData(input)@data$GeneStart)),
-                           "GeneEnd" = as.numeric(as.character(featureData(input)@data$GeneEnd)))
+                           "GeneEnd" = as.numeric(as.character(featureData(input)@data$GeneEnd)),
+                           stringsAsFactors = FALSE)
   if (!is.null(featureData(input)@data$Biotype))
-    resultat <- data.frame(resultat, "Biotype" = as.character(featureData(input)@data[todos,"Biotype"]))
+    resultat <- data.frame(resultat, "Biotype" = as.character(featureData(input)@data[todos,"Biotype"]),
+                           stringsAsFactors = FALSE)
   #resultat[order(resultat[,5], decreasing = TRUE),]
   
   Output(data = list(resultat), method=norm,k=miMD$k,lc=lc,factor=factor,v=v,nss=nss,pnr=pnr,
